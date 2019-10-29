@@ -1,77 +1,74 @@
-import React, {useState, Fragment} from 'react';
-import { Form, Segment, Button } from 'semantic-ui-react';
-import { Field, reduxForm} from 'redux-form';
-import TextInput from '../../../app/common/form/TextInput';
-import { signin, authenticate, isAuthenticated } from '../index'
-import { Redirect } from 'react-router-dom'
+import React from 'react';
+
+import FormInput from '../../../app/common/form/form-input.component';
+import CustomButton from '../../../app/common/form/custom-button.component';
+
+import { auth, signInWithGoogle } from '../firebase.utils';
 
 
 
-const LoginForm = ({history}) => {
-  const [values, setValues] = useState({
-    email:"alice@gmail.com",
-    password:"dsefeasdd9",
-    error:''
+class LoginForm extends React.Component {
+  constructor(props) {
+    super(props);
 
-});
-const {email, password, error } = values;
-    const { user } = isAuthenticated()
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
 
-    const handleChange = name => event => {
-      setValues({...values,error: false, [name]:event.target.value});
+  handleSubmit = async event => {
+    event.preventDefault();
+
+    const { email, password } = this.state;
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      this.setState({ email: '', password: '' });
+    } catch (error) {
+      console.log(error);
     }
-    const clickSubmit = (event) => {
-      //prevent browser reload when button clicked
-      
-      setValues({...values,error:false})
-      signin({email, password})
-      //data is the json data gotten back
-      .then(data =>{
-        if(data.error){
-          setValues({...values, error: data.error})
-
-      } else {
-          
-              authenticate(data, () =>{
-                  setValues({
-                      ...values
-                  });
-              });
-
-          }
-        }
-      );
-      history.push('/events')
   };
 
-const theForm=()=> (
-    <Form error size="large" onSubmit={clickSubmit}>
-      <Segment>
-        <input
-          name="email"
-          component={TextInput}
-          type="email"
-          placeholder="Email Address"
-          onChange={handleChange('email')}
-          value = {email}
-        />
-        <input
-          name="password"
-          component={TextInput}
-          type="password"
-          placeholder="password"
-        />
-        <Button onClick ={clickSubmit} fluid size="large" color="teal">
-          Login
-        </Button>
-      </Segment>
-    </Form>
-  );
-  return(
-    <Fragment>
-      {theForm()}
-    </Fragment>
-  );
-};
+  handleChange = event => {
+    const { value, name } = event.target;
+
+    this.setState({ [name]: value });
+  };
+
+  render() {
+    return (
+      <div className='sign-in'>
+        <h2>I already have an account</h2>
+        <span>Sign in with your email and password</span>
+
+        <form onSubmit={this.handleSubmit}>
+          <FormInput
+            name='email'
+            type='email'
+            handleChange={this.handleChange}
+            value={this.state.email}
+            label='email'
+            required
+          />
+          <FormInput
+            name='password'
+            type='password'
+            value={this.state.password}
+            handleChange={this.handleChange}
+            label='password'
+            required
+          />
+          <div className='buttons'>
+            <CustomButton type='submit'> Sign in </CustomButton>
+            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+              Sign in with Google
+            </CustomButton>
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
 
 export default LoginForm;
