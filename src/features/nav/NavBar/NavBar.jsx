@@ -14,7 +14,7 @@ const actions = {
 }
 
 
-
+//needs to re-renders the NavBar
 const NavBar=({currentUser,history, openModal})=> {
   
    

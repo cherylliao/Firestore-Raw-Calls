@@ -1,4 +1,4 @@
-import React,{Fragment, useEffect} from 'react'
+import React,{Fragment} from 'react'
 import { Container } from 'semantic-ui-react'
 import EventDashboard from '../../features/event/EventDashboard/EventDashboard'
 import NavBar from '../../features/nav/NavBar/NavBar'
@@ -11,36 +11,9 @@ import EventDetailedPage from '../../features/event/EventDetailed/EventDetailedP
 import EventForm from '../../features/event/EventForm/EventForm'
 import TestComponent from '../../features/testarea/TestComponent'
 import ModalManager from '../../features/modals/ModalManager'
-import { connect } from 'react-redux';
-import { setCurrentUser } from '../../features/auth/user.actions';
-import { auth, createUserProfileDocument } from '../../features/auth/firebase.utils';
 
-const App=({setCurrentUser})=> {
-    const unsubscribeFromAuth = null;
-    const userAuth = null;
-    //the stuff to rerender the state of the content;
-    const useEffect= (()=>{
-        unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-            if (userAuth) {
-              const userRef = await createUserProfileDocument(userAuth);
-      
-              userRef.onSnapshot(snapShot => {
-                setCurrentUser({
-                  id: snapShot.id,
-                  ...snapShot.data()
-                });
-              });
-            }
-      
 
-    }
-
-    );
-    return () =>{
-        unsubscribeFromAuth();
-    }
-},[setCurrentUser(userAuth)]
-    )
+export default function App() {
     return (
         <Fragment>
             <ModalManager />
@@ -68,16 +41,3 @@ const App=({setCurrentUser})=> {
         
     )
 }
-
-const mapStateToProps = ({ user }) => ({
-    currentUser: user.currentUser
-  });
-  
-  const mapDispatchToProps = dispatch => ({
-    setCurrentUser: user => dispatch(setCurrentUser(user))
-  });
-  
-  export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App);
