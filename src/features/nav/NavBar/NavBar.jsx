@@ -15,7 +15,7 @@ const actions = {
 
 
 
-const NavBar=({currentUser,history, openModal,setCurrentUser})=> {
+const NavBar=({currentUser,history, openModal})=> {
   
    
    
