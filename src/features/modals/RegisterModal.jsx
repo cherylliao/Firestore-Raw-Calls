@@ -1,11 +1,13 @@
 import React from 'react';
 import {Modal} from 'semantic-ui-react';
-
+import {closeModal} from "./modalActions";
 import RegisterForm from "../auth/Register/RegisterForm";
+import {connect} from 'react-redux'
+const actions ={
+    closeModal
+}
 
-
-
-const RegisterModal =()=> {
+const RegisterModal =({closeModal})=> {
     
         return (
             
@@ -13,7 +15,7 @@ const RegisterModal =()=> {
                 size='mini'
                 
                 open={true}
-                
+                onClose={closeModal}
             >
                 <Modal.Header>
                     Sign Up to Re-vents!
@@ -28,4 +30,4 @@ const RegisterModal =()=> {
     
 }
 
-export default RegisterModal;
+export default connect(null, actions)(RegisterModal);

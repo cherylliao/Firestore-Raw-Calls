@@ -4,35 +4,31 @@ import {Menu, Container, Button} from 'semantic-ui-react'
 import {NavLink, Link,withRouter} from 'react-router-dom'
 import SignedOutMenu from '../Menus/SignedOutMenu'
 import SignedInMenu from '../Menus/SignedInMenu'
+import {openModal} from '../../modals/modalActions'
 
-import { logout} from '../../auth/authActions'
-import RegisterModal from '../../modals/RegisterModal'
+import { auth } from '../../auth/firebase.utils'
+
 
 const actions = {
-  
-  logout
+  openModal
 }
 
-const mapState = state => ({
-  auth:state.auth
-})
 
-const NavBar=({history, openModal, auth, logout})=> {
+
+const NavBar=({currentUser,history, openModal})=> {
   
    
    
    const handleSignIn =()=>openModal('LoginModal');
    const handleSignOut =()=>{
-     logout();
+    auth.signOut()
      history.push('/')
    }
 
    const handleRegister = () =>{
-     return(
-       <RegisterModal />
-     )
+    openModal('RegisterModal')
    }
-   const authenticated = auth.authenticated;
+   
     return (
              <Menu inverted fixed="top">
                <Container>
@@ -45,16 +41,21 @@ const NavBar=({history, openModal, auth, logout})=> {
                  <Fragment>
                  <Menu.Item as ={NavLink} to='/people' name="People" />
                  <Menu.Item as ={NavLink} to='/test' name="Test" />
-                 <Menu.Item>
-                   <Button as={Link} to='/createEvent' floated="right" positive inverted content="Create Event" />
-                   {/* <Button as={Link} to='/signup' floated="right" positive inverted content="Register" /> */}
-                 </Menu.Item>
+                 
                  </Fragment>
-                 <SignedInMenu signOut={handleSignOut} currentUser = {auth.currentUser}/>:
-                 <SignedOutMenu signIn={handleSignIn} />
+                 {currentUser? (
+                   <Menu.Item>
+                   <Button as={Link} to='/createEvent' floated="right" positive inverted content="Create Event" />
+                   <SignedInMenu signOut={handleSignOut} currentUser = {auth.currentUser}/>
+                 </Menu.Item>
+                 ):(
+                 <SignedOutMenu signIn={handleSignIn} register ={handleRegister}/>)}
                  
                </Container>
              </Menu>
     )
 }
-export default withRouter(connect(mapState,actions)(NavBar));
+const mapStateToProps = ({ user: { currentUser } }) => ({
+  currentUser
+});
+export default withRouter(connect(mapStateToProps,actions)(NavBar));
