@@ -1,61 +1,63 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import FormInput from '../../../app/common/form/form-input.component';
 import CustomButton from '../../../app/common/form/custom-button.component';
-
+import {NavLink, Link,withRouter,Redirect} from 'react-router-dom'
 import { auth, signInWithGoogle } from '../firebase.utils';
+import {closeModal} from "../../modals/modalActions";
+import {connect} from 'react-redux';
+const actions = {closeModal};
 
+const LoginForm =({closeModal})=> {
+  const [values, setValues] = useState({
+    email:"",
+    password:""
+});
+const {email, password} = values;
 
-
-class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      email: '',
-      password: ''
-    };
-  }
-
-  handleSubmit = async event => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
-    const { email, password } = this.state;
-
     try {
-      await auth.signInWithEmailAndPassword(email, password);
-      this.setState({ email: '', password: '' });
+      await auth.signInWithEmailAndPassword({email, password});
+      setValues({...values});
+      
     } catch (error) {
       console.log(error);
     }
+    closeModal();
   };
 
-  handleChange = event => {
-    const { value, name } = event.target;
 
-    this.setState({ [name]: value });
-  };
+  const handleChange = name => event => {
+    setValues({...values,[name]:event.target.value});
 
-  render() {
+}
+    //  const handleSignIn =(event) =>{
+    //    event.preventDefault();
+    //    closeModal();
+    //  }
+
+ 
     return (
       <div className='sign-in'>
         <h2>I already have an account</h2>
         <span>Sign in with your email and password</span>
 
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <FormInput
             name='email'
             type='email'
-            handleChange={this.handleChange}
-            value={this.state.email}
+            handleChange={handleChange('email')}
+            value={email}
             label='email'
             required
           />
           <FormInput
             name='password'
             type='password'
-            value={this.state.password}
-            handleChange={this.handleChange}
+            value={password}
+            handleChange={handleChange('password')}
             label='password'
             required
           />
@@ -68,7 +70,8 @@ class LoginForm extends React.Component {
         </form>
       </div>
     );
-  }
+  
 }
 
-export default LoginForm;
+
+export default connect(null, actions)(LoginForm);

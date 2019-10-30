@@ -1,12 +1,15 @@
-import React, {useState,Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {Menu, Container, Button} from 'semantic-ui-react'
-import {NavLink, Link,withRouter} from 'react-router-dom'
+import {NavLink, Link,withRouter,Redirect} from 'react-router-dom'
 import SignedOutMenu from '../Menus/SignedOutMenu'
 import SignedInMenu from '../Menus/SignedInMenu'
 import {openModal} from '../../modals/modalActions'
 import { setCurrentUser } from '../../auth/user.actions';
-import { auth } from '../../auth/firebase.utils'
+
+
+
+import { auth, createUserProfileDocument } from '../../auth/firebase.utils';
 
 
 const actions = {
@@ -28,7 +31,7 @@ const NavBar=({currentUser,history, openModal})=> {
    const handleRegister = () =>{
     openModal('RegisterModal')
    }
-   
+
     return (
              <Menu inverted fixed="top">
                <Container>
@@ -44,9 +47,10 @@ const NavBar=({currentUser,history, openModal})=> {
                  
                  </Fragment>
                  {currentUser? (
+                   
                    <Menu.Item>
                    <Button as={Link} to='/createEvent' floated="right" positive inverted content="Create Event" />
-                   <SignedInMenu signOut={handleSignOut} currentUser = {auth.currentUser}/>
+                   <SignedInMenu signOut={handleSignOut} currentUser = {currentUser}/>
                  </Menu.Item>
                  ):(
                  <SignedOutMenu signIn={handleSignIn} register ={handleRegister}/>)}
@@ -57,8 +61,9 @@ const NavBar=({currentUser,history, openModal})=> {
 }
 
 
-const mapStateToProps = ({ user: { currentUser } }) => ({
+const mapStateToProps = ({ user: { currentUser }}) => ({
   currentUser
 });
+
 
 export default withRouter(connect(mapStateToProps,actions)(NavBar));
