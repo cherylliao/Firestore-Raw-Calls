@@ -1,11 +1,11 @@
-import React, {useState,Fragment} from 'react'
+import React, {useState,Fragment, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {Menu, Container, Button} from 'semantic-ui-react'
 import {NavLink, Link,withRouter} from 'react-router-dom'
 import SignedOutMenu from '../Menus/SignedOutMenu'
 import SignedInMenu from '../Menus/SignedInMenu'
 import {openModal} from '../../modals/modalActions'
-
+import { setCurrentUser } from '../../auth/user.actions';
 import { auth } from '../../auth/firebase.utils'
 
 
@@ -15,7 +15,7 @@ const actions = {
 
 
 
-const NavBar=({currentUser,history, openModal})=> {
+const NavBar=({currentUser,history, openModal,setCurrentUser})=> {
   
    
    
@@ -55,7 +55,10 @@ const NavBar=({currentUser,history, openModal})=> {
              </Menu>
     )
 }
+
+
 const mapStateToProps = ({ user: { currentUser } }) => ({
   currentUser
 });
+
 export default withRouter(connect(mapStateToProps,actions)(NavBar));

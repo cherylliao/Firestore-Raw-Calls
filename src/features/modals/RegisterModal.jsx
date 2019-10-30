@@ -13,7 +13,7 @@ const RegisterModal =({closeModal})=> {
             
             <Modal
                 size='mini'
-                
+                closeIcon="close"
                 open={true}
                 onClose={closeModal}
             >
