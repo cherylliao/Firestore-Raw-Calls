@@ -1,11 +1,11 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useContext} from 'react'
 import {connect} from 'react-redux'
 import {Menu, Container, Button} from 'semantic-ui-react'
 import {NavLink, Link,withRouter,Redirect} from 'react-router-dom'
 import SignedOutMenu from '../Menus/SignedOutMenu'
 import SignedInMenu from '../Menus/SignedInMenu'
 import {openModal} from '../../modals/modalActions'
-import { setCurrentUser } from '../../auth/user.actions';
+import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
 
 
 
@@ -18,7 +18,7 @@ const actions = {
 
 
 //needs to re-renders the NavBar
-const NavBar=({currentUser,history, openModal})=> {
+const NavBar=({history, openModal})=> {
   
    
    
@@ -31,7 +31,7 @@ const NavBar=({currentUser,history, openModal})=> {
    const handleRegister = () =>{
     openModal('RegisterModal')
    }
-
+    const currentUser = useContext(CurrentUserContext)
     return (
              <Menu inverted fixed="top">
                <Container>
@@ -61,9 +61,7 @@ const NavBar=({currentUser,history, openModal})=> {
 }
 
 
-const mapStateToProps = ({ user: { currentUser }}) => ({
-  currentUser
-});
 
 
-export default withRouter(connect(mapStateToProps,actions)(NavBar));
+
+export default withRouter(connect(null,actions)(NavBar));
