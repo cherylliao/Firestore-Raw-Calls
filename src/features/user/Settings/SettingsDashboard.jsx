@@ -8,8 +8,10 @@ import PhotosPage from './PhotosPage'
 import AccountPage from './AccountPage'
 import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
 
+
 const SettingsDashboard = () => {
   const currentUser = useContext(CurrentUserContext)
+  
   return (
     <Grid>
       <Grid.Column width={12}>

@@ -18,7 +18,7 @@ import { auth, createUserProfileDocument, saveProfile} from '../../auth/firebase
 const BasicsPage =({pristine, submitting, currentUser}) => {
   if(currentUser){
   var name = currentUser.displayName
-  
+  var id = currentUser.uid
 }
 
 
@@ -48,8 +48,12 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
         dateOfBirth: '',
         city: ''});
         //firebase database
-        saveProfile(displayName,dateOfBirth,city)
-       
+        // saveProfile(displayName,dateOfBirth,city)
+        currentUser.set({
+          displayName,
+          dateOfBirth,
+          city
+        })
         console.log(user)
       } catch (error) {
         console.error(error);

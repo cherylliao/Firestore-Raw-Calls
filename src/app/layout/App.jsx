@@ -14,6 +14,8 @@ import ModalManager from '../../features/modals/ModalManager'
 
 import { auth, createUserProfileDocument } from '../../features/auth/firebase.utils';
 import CurrentUserContext from '../../app/contexts/current-user/current-user.context'
+
+
 class App extends React.Component{
   constructor(){
     super();
@@ -34,6 +36,7 @@ class App extends React.Component{
             
             ...snapShot.data()
           }});
+          
         });
         
       }
@@ -71,7 +74,9 @@ class App extends React.Component{
                     
                     <Route path='/settings' />
                     <CurrentUserContext.Provider value={this.state.currentUser}>
+                    
                       <SettingsDashboard />
+                     
                     </CurrentUserContext.Provider>
                     <Route path={['/createEvent','/manage/:id']} component={EventForm} />
                     <Route path='/test' component={TestComponent} />
