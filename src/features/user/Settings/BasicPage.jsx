@@ -25,14 +25,16 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
 
   const [user, setUser] = useState({
     displayName: '',
+    identifier:'',
       gender: '',
       dateOfBirth: '',
       city: ''
        });
 
-       const {displayName, gender, dateOfBirth,city} = user;
+       const {displayName, identifier, gender, dateOfBirth,city} = user;
        const handleChange = name => event => {
         setUser({...user,[name]:event.target.value});
+       
     
     }
     const handleSubmit = async event => {
@@ -43,17 +45,13 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
         // await updateProfile(user);
         
         
-        setUser({...user, displayName: '',
+        setUser({...user, displayName: '', identifier:'',
         gender: '',
         dateOfBirth: '',
         city: ''});
         //firebase database
-        // saveProfile(displayName,dateOfBirth,city)
-        currentUser.set({
-          displayName,
-          dateOfBirth,
-          city
-        })
+        saveProfile(identifier, gender, dateOfBirth,city)
+        
         console.log(user)
       } catch (error) {
         console.error(error);
@@ -75,15 +73,30 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
                         
                        
                     />
-                    <Form.Group inline>
+                    <Divider/>
+                    <label>Identifier: </label>
+                    <Input
+                        name='id'
+                        
+                        
+                        value={id}
+                        onChange={handleChange('identifier')}
+                        component={TextInput}
+                        width={8}
+                    />
+                    <Divider/>
                       <label>Gender: </label>
-                      <RadioInput name = 'gender' type = 'radio' value = 'male' label='Male'
-                      
-                      />
-                      <RadioInput name = 'gender' type = 'radio' value = 'female' label='Female'
-                      
-                       />
-                    </Form.Group>
+                      <input
+                        width={8}
+                        name='gender'
+                        value={gender}
+                        onChange={handleChange('gender')}
+                        type='text'
+                        component={TextInput}
+                        placeholder='Female'
+                       
+                    />
+                     
                     <label>Date of Birth: </label>
                     <input type='date'
                         width={8}

@@ -19,10 +19,11 @@ firebase.initializeApp(config);
 
 var profileRef=firebase.database().ref('profile')
 
-export function saveProfile(displayName, dateOfBirth, city){
+export function saveProfile(identifier, gender, dateOfBirth, city){
   var newProfileRef = profileRef.push();
   newProfileRef.set({
-    Name: displayName,
+    ID: identifier,
+    Sex: gender,
     DOB: dateOfBirth,
     place: city
 
