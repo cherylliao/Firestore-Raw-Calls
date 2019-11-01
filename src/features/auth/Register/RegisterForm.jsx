@@ -31,10 +31,11 @@ const {displayName,email, password,confirmPassword} = values;
         password
       );
 
-      await createUserProfileDocument(user,  {displayName} );
+     
 
       setValues({...values, displayName:'', email:'', password:'', confirmPassword:''});
-      console.log(values)
+      await createUserProfileDocument(user,  {displayName} );
+      console.log(displayName)
     } catch (error) {
       console.error(error);
     }

@@ -66,9 +66,13 @@ class App extends React.Component{
                     <Route exact path='/events' component={EventDashboard} />
                     <Route path='/events/:id' component={EventDetailedPage} />
                     <Route path='/people' component={PeopleDashboard} />
-                    //provide the user context in here? 
+                 
                     <Route path='/profile/:id' component={UserDetailedPage} />
-                    <Route path='/settings' component={SettingsDashboard} />
+                    
+                    <Route path='/settings' />
+                    <CurrentUserContext.Provider value={this.state.currentUser}>
+                      <SettingsDashboard />
+                    </CurrentUserContext.Provider>
                     <Route path={['/createEvent','/manage/:id']} component={EventForm} />
                     <Route path='/test' component={TestComponent} />
                    

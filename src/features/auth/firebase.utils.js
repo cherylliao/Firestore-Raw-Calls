@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/database';
 const config = {
   
   apiKey: "AIzaSyAMW5Fpx3LrFEHimH1sttC7jC74jPsb6ko",
@@ -15,6 +16,20 @@ const config = {
 };
 
 firebase.initializeApp(config);
+
+var profileRef=firebase.database().ref('profile')
+
+export function saveProfile(displayName, dateOfBirth, city){
+  var newProfileRef = profileRef.push();
+  newProfileRef.set({
+    Name: displayName,
+    DOB: dateOfBirth,
+    place: city
+
+
+  })
+
+}
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;

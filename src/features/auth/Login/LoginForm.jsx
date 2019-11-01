@@ -19,8 +19,9 @@ const {email, password} = values;
     event.preventDefault();
 
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      
       setValues({...values});
+      await auth.signInWithEmailAndPassword(email, password);
       console.log(values)
       
     } catch (error) {
