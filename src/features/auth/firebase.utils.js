@@ -2,6 +2,8 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/firestore'
+import 'firebase/storage'
 const config = {
   
   apiKey: "AIzaSyAMW5Fpx3LrFEHimH1sttC7jC74jPsb6ko",
@@ -16,15 +18,18 @@ const config = {
 };
 
 firebase.initializeApp(config);
+firebase.firestore();
+
+export const storage = firebase.storage();
 
 var profileRef=firebase.database().ref('profile')
 
-export function saveProfile(identifier, gender, dateOfBirth, city){
+export function saveProfile(displayName, gender, dateOfBirth, city){
   var newProfileRef = profileRef.push();
   newProfileRef.set({
-    ID: identifier,
-    Sex: gender,
-    DOB: dateOfBirth,
+    name: displayName,
+    sex: gender,
+    dob: dateOfBirth,
     place: city
 
 

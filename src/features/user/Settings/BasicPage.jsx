@@ -16,22 +16,20 @@ import { auth, createUserProfileDocument, saveProfile} from '../../auth/firebase
 //provide the authorized user on top of this rendered component in 
 //settingsDashboard
 const BasicsPage =({pristine, submitting, currentUser}) => {
+  
   if(currentUser){
   var name = currentUser.displayName
-  var id = currentUser.uid
-}
-
-
+ }
 
   const [user, setUser] = useState({
     displayName: '',
-    identifier:'',
+      
       gender: '',
       dateOfBirth: '',
       city: ''
        });
 
-       const {displayName, identifier, gender, dateOfBirth,city} = user;
+       const {displayName, gender, dateOfBirth,city} = user;
        const handleChange = name => event => {
         setUser({...user,[name]:event.target.value});
        
@@ -42,22 +40,23 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
       
    
       try {
-        // await updateProfile(user);
+        // Do I need to reset the fields after each use?
         
         
-        setUser({...user, displayName: '', identifier:'',
-        gender: '',
+        setUser({...user, displayName: '', 
+        gender: '', 
         dateOfBirth: '',
         city: ''});
         //firebase database
-        saveProfile(identifier, gender, dateOfBirth,city)
+        saveProfile(displayName, gender, dateOfBirth,city)
         
         console.log(user)
       } catch (error) {
         console.error(error);
       }
       
-    };
+    }
+  
 
      return (
             <Segment>
@@ -67,24 +66,14 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
                         width={8}
                         name='displayName'
                         value={name}
-                        // onChange={handleChange('displayName')}
+                        onChange={handleChange('displayName')}
                         type='text'
                         component={TextInput}
                         
                        
                     />
                     <Divider/>
-                    <label>Identifier: </label>
-                    <Input
-                        name='id'
-                        
-                        
-                        value={id}
-                        onChange={handleChange('identifier')}
-                        component={TextInput}
-                        width={8}
-                    />
-                    <Divider/>
+                   
                       <label>Gender: </label>
                       <input
                         width={8}

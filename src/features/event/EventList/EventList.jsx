@@ -5,7 +5,7 @@ export default function EventList(props) {
     const {events,deleteEvent}=props
     return (
         <Fragment>
-            {events.map(event =>(
+            {events && events.map(event =>(
                 <EventListItem key={event.id} event ={event} 
               
                 deleteEvent={deleteEvent}
