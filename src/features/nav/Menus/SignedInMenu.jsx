@@ -8,6 +8,7 @@ import CurrentUserContext from '../../../app/contexts/current-user/current-user.
 //import signOut again.
 const SignedInMenu = () => {
   const currentUser = useContext(CurrentUserContext)
+
   return (
         <Menu.Item position="right">
           <Image avatar spaced="right" src='/assets/user.png' />

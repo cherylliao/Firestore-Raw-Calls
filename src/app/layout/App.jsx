@@ -27,25 +27,30 @@ class App extends React.Component{
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
-
+        
         userRef.onSnapshot(snapShot => {
           this.setState({currentUser:{
             id: snapShot.id,
+            
             ...snapShot.data()
           }});
         });
+        
       }
-      this.setState({currentUser: userAuth})
       
+      this.setState({currentUser: userAuth})
+     
 
       
     });
+    
   }
 
   componentWillUnmount() {
     this.unsubscribeFromAuth();
 
   }
+ 
     render() {
     return (
         <Fragment>
@@ -61,6 +66,7 @@ class App extends React.Component{
                     <Route exact path='/events' component={EventDashboard} />
                     <Route path='/events/:id' component={EventDetailedPage} />
                     <Route path='/people' component={PeopleDashboard} />
+                    //provide the user context in here? 
                     <Route path='/profile/:id' component={UserDetailedPage} />
                     <Route path='/settings' component={SettingsDashboard} />
                     <Route path={['/createEvent','/manage/:id']} component={EventForm} />
