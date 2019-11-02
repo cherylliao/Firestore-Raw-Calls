@@ -7,8 +7,9 @@ import TextInput from "../../../app/common/form/TextInput";
 import RadioInput from "../../../app/common/form/RadioInput";
 import FormInput from '../../../app/common/form/form-input.component';
 import { addYears } from 'date-fns';
-
-import { auth, createUserProfileDocument, saveProfile} from '../../auth/firebase.utils';
+import {firestore, auth, createUserProfileDocument, db, aboutUser} from '../../auth/firebase.utils';
+import toaster from 'toasted-notes';
+import 'toasted-notes/src/styles.css'; // optional styles
 
 // import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
 // import CustomButton from '../../../app/common/form/custom-button.component';
@@ -19,22 +20,24 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
   
   if(currentUser){
   var name = currentUser.displayName
+  var id = currentUser.email
+  
  }
-
+ 
   const [user, setUser] = useState({
-    displayName: '',
+    displayName: name,
       
       gender: '',
       dateOfBirth: '',
       city: ''
        });
+       
 
        const {displayName, gender, dateOfBirth,city} = user;
        const handleChange = name => event => {
         setUser({...user,[name]:event.target.value});
-       
-    
-    }
+       }
+      
     const handleSubmit = async event => {
       event.preventDefault();
       
@@ -47,21 +50,43 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
         gender: '', 
         dateOfBirth: '',
         city: ''});
-        //firebase database
-        saveProfile(displayName, gender, dateOfBirth,city)
+        //reference the doc based on user uid, then use update 
         
-        console.log(user)
-      } catch (error) {
-        console.error(error);
-      }
+        const aboutRef = firestore.doc(`profiles/${id}`);
+        const snapShot = await aboutRef.get();
+
+  if (!snapShot.exists) {
+    
+    const createdAt = new Date();
+   
+    try {
+      await aboutRef.set({
+        
+        user,
+        createdAt
+      });
+    } catch (error) {
+      console.log('error creating user', error.message);
+    }
+  }
+
+
+
+         
       
     }
+    catch(error){
+      console.log(error)
+    }
+  }
   
 
      return (
             <Segment>
                 <Header dividing size='large' content='Basics' />
                 <Form onSubmit={handleSubmit}>
+               
+                   
                     <input
                         width={8}
                         name='displayName'

@@ -22,13 +22,16 @@
     "react-redux-toastr": "^7.5.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
+    "react-spring": "^8.0.27",
+    "react-toastify": "^5.4.0",
     "redux": "^4.0.1",
     "redux-auth-wrapper": "^2.1.0",
     "redux-firestore": "^0.3.2",
     "redux-form": "^7.4.2",
     "redux-thunk": "^2.3.0",
     "revalidate": "^1.2.0",
-    "semantic-ui-react": "^0.87.1"
+    "semantic-ui-react": "^0.87.1",
+    "toasted-notes": "^3.0.0"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",

@@ -18,7 +18,7 @@ const config = {
 };
 
 firebase.initializeApp(config);
-firebase.firestore();
+export const db = firebase.firestore();
 
 export const storage = firebase.storage();
 
@@ -61,6 +61,32 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   return userRef;
 };
+
+export const aboutUser = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const aboutRef = firestore.doc(`profiles/${userAuth.uid}`);
+
+  const snapShot = await aboutRef.get();
+
+  if (!snapShot.exists) {
+    const { gender, dateOfBirth,city } = additionalData;
+    const createdAt = new Date();
+    try {
+      await aboutRef.set({
+        gender, dateOfBirth,city,
+        createdAt,
+        ...additionalData
+      });
+    } catch (error) {
+      console.log('error creating user', error.message);
+    }
+  }
+
+  return aboutRef;
+};
+
+
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
