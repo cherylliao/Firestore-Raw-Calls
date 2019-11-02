@@ -20,7 +20,7 @@ const SettingsDashboard = () => {
         <Route path='/settings/basic' >
         <BasicPage currentUser={currentUser} />
         </Route>
-        <Route path='/settings/about' component={AboutPage} />
+        <Route path='/settings/about' component={AboutPage} currentUser={currentUser}/>
         <Route path='/settings/photos' component={PhotosPage} />
         <Route path='/settings/account' component={AccountPage} />
         </Switch>

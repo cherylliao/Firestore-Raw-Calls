@@ -7,9 +7,7 @@ import TextInput from "../../../app/common/form/TextInput";
 import RadioInput from "../../../app/common/form/RadioInput";
 import FormInput from '../../../app/common/form/form-input.component';
 import { addYears } from 'date-fns';
-import {firestore, auth, createUserProfileDocument, db, aboutUser} from '../../auth/firebase.utils';
-import toaster from 'toasted-notes';
-import 'toasted-notes/src/styles.css'; // optional styles
+import {firestore, auth, createUserProfileDocument, db} from '../../auth/firebase.utils';
 
 // import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
 // import CustomButton from '../../../app/common/form/custom-button.component';
@@ -20,20 +18,19 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
   
   if(currentUser){
   var name = currentUser.displayName
-  var id = currentUser.email
-  
- }
+}
  
   const [user, setUser] = useState({
     displayName: name,
-      
-      gender: '',
-      dateOfBirth: '',
+    dateOfBirth: '',
       city: ''
        });
-       
+  const [sex, setSex]=useState('male')
+  const handleOptionChange = e =>{
+    setSex(e.target.value)
+  }
 
-       const {displayName, gender, dateOfBirth,city} = user;
+       const {displayName, dateOfBirth,city} = user;
        const handleChange = name => event => {
         setUser({...user,[name]:event.target.value});
        }
@@ -46,8 +43,8 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
         // Do I need to reset the fields after each use?
         
         
-        setUser({...user, displayName: '', 
-        gender: '', 
+        setUser({...user, sex,displayName: '', 
+        
         dateOfBirth: '',
         city: ''});
         //reference the doc based on user uid, then use update 
@@ -74,7 +71,7 @@ if (snapShot.exists) {
     
     try {
       await userRef.update({
-        gender, dateOfBirth,city
+        sex, dateOfBirth,city
       });
     } catch (error) {
       console.log('error creating user', error.message);
@@ -104,18 +101,20 @@ if (snapShot.exists) {
                     />
                     <Divider/>
                    
-                      <label>Gender: </label>
-                      <input
-                        width={8}
-                        name='gender'
-                        value={gender}
-                        onChange={handleChange('gender')}
-                        type='text'
-                        component={TextInput}
-                        placeholder='Female'
-                       
-                    />
-                     
+                    <label>
+            <input type="radio" value="male" 
+            checked={sex === 'male'}
+            onChange={handleOptionChange}
+             />
+            Male
+          </label>
+          <label>
+            <input type="radio" checked={sex === 'female'}
+            onChange={handleOptionChange}
+            value="female" />
+            Female
+          </label>
+          <Divider/>       
                     <label>Date of Birth: </label>
                     <input type='date'
                         width={8}
