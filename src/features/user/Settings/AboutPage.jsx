@@ -1,6 +1,6 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Button, Divider, Form, Header, Segment } from 'semantic-ui-react';
-import { Field, reduxForm } from 'redux-form';
+
 import RadioInput from '../../../app/common/form/RadioInput';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
@@ -16,49 +16,53 @@ const interests = [
   { key: 'travel', text: 'Travel', value: 'travel' }
 ];
 
-const AboutPage = ({ pristine, submitting }) => {
+const AboutPage = ({ pristine, submitting,currentUser }) => {
+  const [status, setStatus] =useState('single')
+  const handleOptionChange =() =>{}
   return (
     <Segment>
       <Header dividing size="large" content="About Me" />
       <p>Complete your profile to get the most out of this site</p>
       <Form>
-        <Form.Group inline>
-          <label>Tell us your status: </label>
-          <Field name="status" component={RadioInput} type="radio" value="single" label="Single" />
-          <Field
-            name="status"
-            component={RadioInput}
-            type="radio"
-            value="relationship"
-            label="Relationship"
-          />
-          <Field
-            name="status"
-            component={RadioInput}
-            type="radio"
-            value="married"
-            label="Married"
-          />
-        </Form.Group>
+      <label>
+            <input type="radio" value="single" 
+            checked={status === 'single'}
+            onChange={handleOptionChange}
+             />
+            Single
+          </label>
+          &nbsp;&nbsp;&nbsp;
+          <label>
+            <input type="radio" checked={status === 'relationship'} 
+            onChange={handleOptionChange}
+            value="relationship" />
+            Relationship
+          </label>
+          &nbsp;&nbsp;&nbsp;
+          <label>
+            <input type="radio" checked={status === 'married'} 
+            onChange={handleOptionChange}
+            value="married" />
+            Married
+          </label>
         <Divider />
         <label>Tell us about yourself</label>
-        <Field name="about" component={TextArea} placeholder="About Me" />
-        <Field
+        <input name="about" component={TextArea} placeholder="About Me" />
+        <Divider />
+        <input
           name="interests"
-          component={SelectInput}
-          options={interests}
-          value="interests"
-          multiple={true}
           placeholder="Select your interests"
         />
-        <Field
+         <Divider />
+        <input
           width={8}
           name="occupation"
           type="text"
           component={TextInput}
           placeholder="Occupation"
         />
-        <Field
+         <Divider />
+        <input
           width={8}
           name="origin"
           options={{ types: ['(regions)'] }}
@@ -72,4 +76,4 @@ const AboutPage = ({ pristine, submitting }) => {
   );
 };
 
-export default reduxForm({ form: 'userProfile', enableReinitialize: true })(AboutPage);
+export default AboutPage;

@@ -4,9 +4,9 @@ import { getFirebase } from 'react-redux-firebase';
 import DateInput from "../../../app/common/form/DateInput";
 import PlaceInput from "../../../app/common/form/PlaceInput";
 import TextInput from "../../../app/common/form/TextInput";
-import RadioInput from "../../../app/common/form/RadioInput";
+
 import FormInput from '../../../app/common/form/form-input.component';
-import { addYears } from 'date-fns';
+import { subYears } from 'date-fns';
 import {firestore, auth, createUserProfileDocument, db} from '../../auth/firebase.utils';
 
 // import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
@@ -47,24 +47,7 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
         
         dateOfBirth: '',
         city: ''});
-        //reference the doc based on user uid, then use update 
-        
-//         const aboutRef = firestore.doc(`profiles/${auth.currentUser.uid}`);
-//         const snapShot = await aboutRef.get();
-// if (!snapShot.exists) {
-    
-//     const createdAt = new Date();
-   
-//     try {
-//       await aboutRef.set({
-        
-//         user,
-//         createdAt
-//       });
-//     } catch (error) {
-//       console.log('error creating user', error.message);
-//     }
-//   }
+
 const userRef = firestore.doc(`users/${auth.currentUser.uid}`);
 const snapShot = await userRef.get();
 if (snapShot.exists) {
@@ -127,7 +110,9 @@ if (snapShot.exists) {
                         showYearDropdown={true}
                         showMonthDropdown={true}
                         dropdownMode='select'
-                        maxDate={addYears(new Date(), -18)}
+                        maxDate={subYears(new Date(), 18)}
+                        
+                        
                         
                     />
                     <Divider/>

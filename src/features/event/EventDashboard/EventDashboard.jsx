@@ -1,13 +1,12 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { Grid } from 'semantic-ui-react'
 import EventList from '../EventList/EventList'
 
-import cuid from 'cuid';
 import {connect} from 'react-redux'
 import {deleteEvent,updateEvent,createEvent} from '../eventActions'
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import EventActivity from '../EventActivity/EventActivity';
-import { firestoreConnect } from 'react-redux-firebase';
+
 
 const mapState = state =>({
   events:state.events,
