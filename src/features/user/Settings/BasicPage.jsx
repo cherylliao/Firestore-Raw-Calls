@@ -52,36 +52,41 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
         city: ''});
         //reference the doc based on user uid, then use update 
         
-        const aboutRef = firestore.doc(`profiles/${id}`);
-        const snapShot = await aboutRef.get();
-
-  if (!snapShot.exists) {
+//         const aboutRef = firestore.doc(`profiles/${auth.currentUser.uid}`);
+//         const snapShot = await aboutRef.get();
+// if (!snapShot.exists) {
     
-    const createdAt = new Date();
+//     const createdAt = new Date();
    
-    try {
-      await aboutRef.set({
+//     try {
+//       await aboutRef.set({
         
-        user,
-        createdAt
+//         user,
+//         createdAt
+//       });
+//     } catch (error) {
+//       console.log('error creating user', error.message);
+//     }
+//   }
+const userRef = firestore.doc(`users/${auth.currentUser.uid}`);
+const snapShot = await userRef.get();
+if (snapShot.exists) {
+    
+    try {
+      await userRef.update({
+        gender, dateOfBirth,city
       });
     } catch (error) {
       console.log('error creating user', error.message);
     }
   }
-
-
-
-         
-      
-    }
-    catch(error){
-      console.log(error)
-    }
+}
+  catch(error){
+    console.log(error)
   }
-  
-
-     return (
+}
+    
+ return (
             <Segment>
                 <Header dividing size='large' content='Basics' />
                 <Form onSubmit={handleSubmit}>

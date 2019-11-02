@@ -3,7 +3,7 @@ import React from 'react'
 const UserDetailedPage = () => {
   return (
     <div>
-      
+      I am detail
     </div>
   )
 }

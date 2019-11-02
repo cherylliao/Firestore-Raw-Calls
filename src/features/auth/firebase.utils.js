@@ -39,12 +39,9 @@ export function saveProfile(displayName, gender, dateOfBirth, city){
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
-
-  const userRef = firestore.doc(`users/${userAuth.uid}`);
-
-  const snapShot = await userRef.get();
-
-  if (!snapShot.exists) {
+const userRef = firestore.doc(`users/${userAuth.uid}`);
+const snapShot = await userRef.get();
+if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
@@ -58,23 +55,20 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
       console.log('error creating user', error.message);
     }
   }
-
-  return userRef;
+return userRef;
 };
 
-export const aboutUser = async (userAuth, additionalData) => {
+export const updateUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
-
-  const aboutRef = firestore.doc(`profiles/${userAuth.uid}`);
-
-  const snapShot = await aboutRef.get();
-
-  if (!snapShot.exists) {
-    const { gender, dateOfBirth,city } = additionalData;
+const userRef = firestore.doc(`users/${userAuth.uid}`);
+const snapShot = await userRef.get();
+if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
-      await aboutRef.set({
-        gender, dateOfBirth,city,
+      await userRef.set({
+        displayName,
+        email,
         createdAt,
         ...additionalData
       });
@@ -82,9 +76,9 @@ export const aboutUser = async (userAuth, additionalData) => {
       console.log('error creating user', error.message);
     }
   }
-
-  return aboutRef;
+return userRef;
 };
+
 
 
 
