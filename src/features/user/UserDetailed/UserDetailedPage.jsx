@@ -1,12 +1,23 @@
 import React, { useContext} from 'react';
 import {Button, Card, Grid, Header, Icon, Image, Item, List, Menu, Segment} from "semantic-ui-react";
 import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
+import {firestore, auth} from '../../auth/firebase.utils';
+import {Link} from 'react-router-dom'
+
+import format from 'date-fns/format'
 const UserDetailedPage =()=> {
    const currentUser = useContext(CurrentUserContext)
    if(currentUser)
    {
      var name = currentUser.displayName
      var location = currentUser.city
+     var origin = currentUser.origin
+     var about = currentUser.about
+     var job = currentUser.occupation
+     var likes = currentUser.interests
+    //  var age = differenceInYears(Date.now(), currentUser.dateOfBirth.toDate())
+    
+
      
      
    }
@@ -18,13 +29,14 @@ const UserDetailedPage =()=> {
                     <Segment>
                         <Item.Group>
                             <Item>
+                              //pass profile photo in here
                                 <Item.Image avatar size='small' src='https://randomuser.me/api/portraits/men/20.jpg'/>
                                 <Item.Content verticalAlign='bottom'>
                                     <Header as='h1'>{name}</Header>
                                     <br/>
-                                    <Header as='h3'>Occupation</Header>
+                                    <Header as='h3'>{job}</Header>
                                     <br/>
-                                    <Header as='h3'>26, Lives in {location}</Header>
+                                    <Header as='h3'>{}, Lives in {location}</Header>
                                 </Item.Content>
                             </Item>
                         </Item.Group>
@@ -37,9 +49,9 @@ const UserDetailedPage =()=> {
                             <Grid.Column width={10}>
                                 <Header icon='smile' content='About Display Name'/>
                                 <p>I am a: <strong>Occupation Placeholder</strong></p>
-                                <p>Originally from <strong>United Kingdom</strong></p>
-                                <p>Member Since: <strong></strong></p>
-                                <p>Description of user</p>
+                                <p>Originally from <strong>{origin}</strong></p>
+                                
+                                <p>{about}</p>
 
                             </Grid.Column>
                             <Grid.Column width={6}>
@@ -48,16 +60,9 @@ const UserDetailedPage =()=> {
                                 <List>
                                     <Item>
                                         <Icon name='heart'/>
-                                        <Item.Content>Interest 1</Item.Content>
+                                        <Item.Content>{likes}</Item.Content>
                                     </Item>
-                                    <Item>
-                                        <Icon name='heart'/>
-                                        <Item.Content>Interest 2</Item.Content>
-                                    </Item>
-                                    <Item>
-                                        <Icon name='heart'/>
-                                        <Item.Content>Interest 3</Item.Content>
-                                    </Item>
+                                    
                                 </List>
                             </Grid.Column>
                         </Grid>
@@ -66,7 +71,7 @@ const UserDetailedPage =()=> {
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <Segment>
-                        <Button color='teal' fluid basic content='Edit Profile'/>
+                        <Button  as ={Link} to='/settings' color='teal' fluid basic content='Edit Profile'/>
                     </Segment>
                 </Grid.Column>
 

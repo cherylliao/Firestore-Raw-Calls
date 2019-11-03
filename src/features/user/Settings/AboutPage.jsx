@@ -43,7 +43,7 @@ const snapShot = await userRef.get();
 if (snapShot.exists) {
   try {
     await userRef.update({
-      status, about, interests, origin
+      status, about, interests, occupation, origin
     });
     toast.success("About info added successfully!")
   } catch (error) {

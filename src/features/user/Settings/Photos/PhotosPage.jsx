@@ -1,8 +1,11 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect, Fragment, useContext} from 'react';
 import {Image, Segment, Header, Divider, Grid, Button, Card} from 'semantic-ui-react';
 import DropzoneInput from './DropzoneInput'
 import CropperInput from './CropperInput';
 import {storage, auth, firebase} from '../../../auth/firebase.utils';
+import {toast} from 'react-toastify';
+import UserPhotos from './UserPhotos'
+import PhotoContext from '../../../../app/contexts/current-user/photo.context'
 
 const PhotosPage =({currentUser}) => {
         const [files, setFiles] = useState([])
@@ -20,7 +23,7 @@ const PhotosPage =({currentUser}) => {
            var storageRef = storage.ref();
            var imageRef = storageRef.child(`images/${auth.currentUser.uid}`);
            imageRef.put(image).then(function(snapshot){
-               console.log('uploaded')
+            toast.success("Profile pic uploaded")
            })
            
     imageRef.getDownloadURL().then(function(url){
@@ -32,6 +35,11 @@ const PhotosPage =({currentUser}) => {
 const handleCancelCrop =() =>{
             setFiles([])
         }
+        const deletePhoto = e =>{
+            setUrl('')
+            toast.success("Profile pic deleted")
+        }
+        
         return (
             <Segment>
                 <Header dividing size='large' content='Your Photos' />
@@ -72,14 +80,12 @@ const handleCancelCrop =() =>{
 
                 <Divider/>
                 <Header sub color='teal' content='User Photo'/>
-
-                <Card.Group itemsPerRow={5}>
-                    <Card>
-                        <Image src={`${url}`} />
-                        
-                    </Card>
-
-                </Card.Group>
+                   <Card>
+                <PhotoContext.Provider value={url}>
+                <UserPhotos />
+                </PhotoContext.Provider>
+                </Card>
+                <Button onClick = {deletePhoto }basic icon='trash' color='red' />
             </Segment>
         );
     
