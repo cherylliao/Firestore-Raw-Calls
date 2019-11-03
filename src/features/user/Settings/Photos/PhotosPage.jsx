@@ -3,9 +3,11 @@ import {Image, Segment, Header, Divider, Grid, Button, Card} from 'semantic-ui-r
 import DropzoneInput from './DropzoneInput'
 import CropperInput from './CropperInput';
 import {storage, auth, firebase} from '../../../auth/firebase.utils';
+
 const PhotosPage =({currentUser}) => {
         const [files, setFiles] = useState([])
         const [image, setImage] =useState(null)
+        const [url, setUrl] = useState('')
 
         useEffect (()=>{
             return ()=>{
@@ -20,7 +22,11 @@ const PhotosPage =({currentUser}) => {
            imageRef.put(image).then(function(snapshot){
                console.log('uploaded')
            })
-        }
+           
+    imageRef.getDownloadURL().then(function(url){
+        setUrl(url)
+        })
+    }
           
           
 const handleCancelCrop =() =>{
@@ -65,23 +71,14 @@ const handleCancelCrop =() =>{
                 </Grid>
 
                 <Divider/>
-                <Header sub color='teal' content='All Photos'/>
+                <Header sub color='teal' content='User Photo'/>
 
                 <Card.Group itemsPerRow={5}>
                     <Card>
-                        <Image src='https://randomuser.me/api/portraits/men/20.jpg'/>
-                        <Button positive>Main Photo</Button>
+                        <Image src={`${url}`} />
+                        
                     </Card>
 
-                        <Card >
-                            <Image
-                                src='https://randomuser.me/api/portraits/men/20.jpg'
-                            />
-                            <div className='ui two buttons'>
-                                <Button basic color='green'>Main</Button>
-                                <Button basic icon='trash' color='red' />
-                            </div>
-                        </Card>
                 </Card.Group>
             </Segment>
         );
