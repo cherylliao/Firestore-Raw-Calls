@@ -4,7 +4,7 @@ import DropzoneInput from './DropzoneInput'
 import CropperInput from './CropperInput';
 import {storage, auth, firebase} from '../../../auth/firebase.utils';
 import {toast} from 'react-toastify';
-import UserPhotos from './UserPhotos'
+
 import PhotoContext from '../../../../app/contexts/current-user/photo.context'
 
 const PhotosPage =({currentUser}) => {
@@ -29,6 +29,7 @@ const PhotosPage =({currentUser}) => {
     imageRef.getDownloadURL().then(function(url){
         setUrl(url)
         })
+        
     }
           
           
@@ -81,9 +82,7 @@ const handleCancelCrop =() =>{
                 <Divider/>
                 <Header sub color='teal' content='User Photo'/>
                    <Card>
-                <PhotoContext.Provider value={url}>
-                <UserPhotos />
-                </PhotoContext.Provider>
+                   <Image src={`${url}`} />
                 </Card>
                 <Button onClick = {deletePhoto }basic icon='trash' color='red' />
             </Segment>

@@ -1,12 +1,16 @@
-import React, { useContext} from 'react';
+import React, { useContext, useState} from 'react';
 import {Button, Card, Grid, Header, Icon, Image, Item, List, Menu, Segment} from "semantic-ui-react";
 import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
-import {firestore, auth} from '../../auth/firebase.utils';
+import {firestore, auth, storage} from '../../auth/firebase.utils';
 import {Link} from 'react-router-dom'
 
 import format from 'date-fns/format'
+
+
 const UserDetailedPage =()=> {
+  
    const currentUser = useContext(CurrentUserContext)
+   const [url, setUrl] = useState('')
    if(currentUser)
    {
      var name = currentUser.displayName
@@ -15,9 +19,12 @@ const UserDetailedPage =()=> {
      var about = currentUser.about
      var job = currentUser.occupation
      var likes = currentUser.interests
-    //  var age = differenceInYears(Date.now(), currentUser.dateOfBirth.toDate())
-    
-
+     var age = differenceInYears(Date.now(), currentUser.dateOfBirth.toDate())
+    var storageRef = storage.ref();
+    var imageRef = storageRef.child(`images/${auth.currentUser.uid}`);
+    imageRef.getDownloadURL().then(function(url){
+      setUrl(url)
+      })
      
      
    }
@@ -29,8 +36,9 @@ const UserDetailedPage =()=> {
                     <Segment>
                         <Item.Group>
                             <Item>
-                              //pass profile photo in here
-                                <Item.Image avatar size='small' src='https://randomuser.me/api/portraits/men/20.jpg'/>
+                              
+                                <Item.Image avatar size='small' src={`${url}`}/> 
+                             
                                 <Item.Content verticalAlign='bottom'>
                                     <Header as='h1'>{name}</Header>
                                     <br/>
@@ -75,7 +83,7 @@ const UserDetailedPage =()=> {
                     </Segment>
                 </Grid.Column>
 
-                <Grid.Column width={12}>
+                {/* <Grid.Column width={12}>
                     <Segment attached>
                         <Header icon='image' content='Photos'/>
                         
@@ -86,7 +94,7 @@ const UserDetailedPage =()=> {
                             <Image src='https://randomuser.me/api/portraits/men/20.jpg'/>
                         </Image.Group>
                     </Segment>
-                </Grid.Column>
+                </Grid.Column> */}
 
                 <Grid.Column width={12}>
                     <Segment attached>

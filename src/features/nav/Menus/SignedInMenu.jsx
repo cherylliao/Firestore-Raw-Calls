@@ -1,20 +1,25 @@
 import React,{useContext, useState, useEffect} from 'react'
 import { Menu,Image, Dropdown} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-import { auth } from '../../auth/firebase.utils'
+import { auth, storage } from '../../auth/firebase.utils'
 import { connect } from 'react-redux';
 import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
-import PhotoContext from '../../../app/contexts/current-user/photo.context';
+
 // import {signOut} from '../../auth/authActions'
 //import signOut again.
 const SignedInMenu = () => {
   const currentUser = useContext(CurrentUserContext)
-  
+  const [url, setUrl] = useState('')
+  var storageRef = storage.ref();
+    var imageRef = storageRef.child(`images/${auth.currentUser.uid}`);
+    imageRef.getDownloadURL().then(function(url){
+      setUrl(url)
+      })
  
   
   return (
         <Menu.Item position="right">
-          <Image avatar spaced="right" src='/assets/user.png'/>
+          <Image avatar spaced="right" src={`${url}`}/>
           <Dropdown pointing="top left" text= {currentUser.displayName}>
             <Dropdown.Menu>
               <Dropdown.Item text="Create Event" icon="plus" />
