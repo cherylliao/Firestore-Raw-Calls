@@ -13,7 +13,7 @@ const PhotosPage =() => {
             }
         }, [files])
         const handleUploadImage =() =>{
-            
+            //post image to firestore
 
         }
         const handleCancelCrop =() =>{

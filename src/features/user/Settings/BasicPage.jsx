@@ -37,21 +37,13 @@ const BasicsPage =({pristine, submitting, currentUser}) => {
       
     const handleSubmit = async event => {
       event.preventDefault();
-      
-   
       try {
-        // Do I need to reset the fields after each use?
-        
-        
-        setUser({...user, sex,displayName: '', 
-        
+       setUser({...user, sex,displayName: '', 
         dateOfBirth: '',
         city: ''});
-
 const userRef = firestore.doc(`users/${auth.currentUser.uid}`);
 const snapShot = await userRef.get();
 if (snapShot.exists) {
-    
     try {
       await userRef.update({
         sex, dateOfBirth,city
@@ -60,8 +52,7 @@ if (snapShot.exists) {
       console.log('error creating user', error.message);
     }
   }
-}
-  catch(error){
+}catch(error){
     console.log(error)
   }
 }

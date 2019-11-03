@@ -1,11 +1,9 @@
 import React,{useState} from 'react';
 import { Button, Divider, Form, Header, Segment } from 'semantic-ui-react';
-
-import RadioInput from '../../../app/common/form/RadioInput';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import PlaceInput from '../../../app/common/form/PlaceInput';
-import SelectInput from '../../../app/common/form/SelectInput';
+import {firestore, auth, createUserProfileDocument, db} from '../../auth/firebase.utils';
 
 const interests = [
   { key: 'drinks', text: 'Drinks', value: 'drinks' },
@@ -18,12 +16,48 @@ const interests = [
 
 const AboutPage = ({ pristine, submitting,currentUser }) => {
   const [status, setStatus] =useState('single')
-  const handleOptionChange =() =>{}
+  const [user, setUser] = useState({
+    about: '',
+    interests: '',
+    occupation: '',
+    origin:''
+       });
+  const handleOptionChange =e =>{
+    setStatus(e.target.value)
+  }
+
+  const {about, interests, occupation, origin} = user;
+  const handleChange = name => event => {
+    setUser({...user,[name]:event.target.value});
+   }
+
+   const handleSubmit = async event => {
+    event.preventDefault();
+    try {
+     setUser({...user, status, about: '', 
+      interests: '', occupation:'',
+      origin: ''});
+const userRef = firestore.doc(`users/${auth.currentUser.uid}`);
+const snapShot = await userRef.get();
+if (snapShot.exists) {
+  try {
+    await userRef.update({
+      status, about, interests, origin
+    });
+  } catch (error) {
+    console.log('error creating user', error.message);
+  }
+}
+}catch(error){
+  console.log(error)
+}
+}
+
   return (
     <Segment>
       <Header dividing size="large" content="About Me" />
       <p>Complete your profile to get the most out of this site</p>
-      <Form>
+      <Form onSubmit={handleSubmit}>
       <label>
             <input type="radio" value="single" 
             checked={status === 'single'}
@@ -47,17 +81,21 @@ const AboutPage = ({ pristine, submitting,currentUser }) => {
           </label>
         <Divider />
         <label>Tell us about yourself</label>
-        <input name="about" component={TextArea} placeholder="About Me" />
+        <input name="about" 
+        onChange={handleChange('about')}
+        component={TextArea} placeholder="About Me" />
         <Divider />
         <input
           name="interests"
           placeholder="Select your interests"
+          onChange={handleChange('interests')}
         />
          <Divider />
         <input
           width={8}
           name="occupation"
           type="text"
+          onChange={handleChange('occupation')}
           component={TextInput}
           placeholder="Occupation"
         />
@@ -65,6 +103,7 @@ const AboutPage = ({ pristine, submitting,currentUser }) => {
         <input
           width={8}
           name="origin"
+          onChange={handleChange('origin')}
           options={{ types: ['(regions)'] }}
           component={PlaceInput}
           placeholder="Country of Origin"
