@@ -5,12 +5,14 @@ import {firestore, auth, storage} from '../../auth/firebase.utils';
 import {Link} from 'react-router-dom'
 
 import format from 'date-fns/format'
+import UserPhoto from '../Settings/Photos/UserPhoto';
+import PhotoContext from '../../../app/contexts/current-user/photo.context';
 
 
 const UserDetailedPage =()=> {
-  
+  const url = useContext(PhotoContext)
    const currentUser = useContext(CurrentUserContext)
-   const [url, setUrl] = useState('')
+  //  const [url, setUrl] = useState('')
    if(currentUser)
    {
      var name = currentUser.displayName
@@ -19,12 +21,12 @@ const UserDetailedPage =()=> {
      var about = currentUser.about
      var job = currentUser.occupation
      var likes = currentUser.interests
-     var age = differenceInYears(Date.now(), currentUser.dateOfBirth.toDate())
-    var storageRef = storage.ref();
-    var imageRef = storageRef.child(`images/${auth.currentUser.uid}`);
-    imageRef.getDownloadURL().then(function(url){
-      setUrl(url)
-      })
+    //  var age = differenceInYears(Date.now(), currentUser.dateOfBirth.toDate())
+    // var storageRef = storage.ref();
+    // var imageRef = storageRef.child(`images/${auth.currentUser.uid}`);
+    // imageRef.getDownloadURL().then(function(url){
+    //   setUrl(url)
+    //   })
      
      
    }
@@ -37,8 +39,9 @@ const UserDetailedPage =()=> {
                         <Item.Group>
                             <Item>
                               
-                                <Item.Image avatar size='small' src={`${url}`}/> 
-                             
+                                <Item.Image avatar size='small'>
+                                <UserPhoto  currentUser={currentUser}/>
+                                </Item.Image>
                                 <Item.Content verticalAlign='bottom'>
                                     <Header as='h1'>{name}</Header>
                                     <br/>

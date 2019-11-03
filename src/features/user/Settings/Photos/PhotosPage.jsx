@@ -1,16 +1,18 @@
 import React, {useState, useEffect, Fragment, useContext} from 'react';
-import {Image, Segment, Header, Divider, Grid, Button, Card} from 'semantic-ui-react';
+import {Image, Segment, Header, Divider, Grid, Button, Card,Item} from 'semantic-ui-react';
 import DropzoneInput from './DropzoneInput'
 import CropperInput from './CropperInput';
 import {storage, auth, firebase} from '../../../auth/firebase.utils';
 import {toast} from 'react-toastify';
+import UserPhoto from './UserPhoto'
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
-import PhotoContext from '../../../../app/contexts/current-user/photo.context'
 
 const PhotosPage =({currentUser}) => {
         const [files, setFiles] = useState([])
         const [image, setImage] =useState(null)
-        const [url, setUrl] = useState('')
+        
 
         useEffect (()=>{
             return ()=>{
@@ -21,25 +23,30 @@ const PhotosPage =({currentUser}) => {
         const handleUploadImage =() =>{
            console.log(image)
            var storageRef = storage.ref();
-           var imageRef = storageRef.child(`images/${auth.currentUser.uid}`);
+        var imageRef = storageRef.child(`images/${auth.currentUser.uid}`)
            imageRef.put(image).then(function(snapshot){
             toast.success("Profile pic uploaded")
            })
            
-    imageRef.getDownloadURL().then(function(url){
-        setUrl(url)
-        })
+    
         
     }
           
-          
+    const deletePhoto = e =>{
+        //delete the photo from storage
+        var storageRef = storage.ref();
+        var imageRef = storageRef.child(`images/${auth.currentUser.uid}`)
+        imageRef.delete().then(function() {
+            toast.success("Profile pic deleted")
+          }).catch(function(error) {
+            toast.error("Cannot be deleted")
+          });
+        
+    }     
 const handleCancelCrop =() =>{
             setFiles([])
         }
-        const deletePhoto = e =>{
-            setUrl('')
-            toast.success("Profile pic deleted")
-        }
+        
         
         return (
             <Segment>
@@ -80,11 +87,15 @@ const handleCancelCrop =() =>{
                 </Grid>
 
                 <Divider/>
-                <Header sub color='teal' content='User Photo'/>
+                <Header sub color='teal' content='Delete Profile Picture'/>
+                  
                    <Card>
-                   <Image src={`${url}`} />
-                </Card>
-                <Button onClick = {deletePhoto }basic icon='trash' color='red' />
+                   <UserPhoto currentUser = {currentUser} /> 
+                   </Card>
+              
+                   <Button onClick = {deletePhoto } basic icon='trash' color='red' />
+                   
+                <ToastContainer />
             </Segment>
         );
     

@@ -4,22 +4,25 @@ import {Link} from 'react-router-dom'
 import { auth, storage } from '../../auth/firebase.utils'
 import { connect } from 'react-redux';
 import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
+import UserPhoto from '../../user/Settings/Photos/UserPhoto';
 
 // import {signOut} from '../../auth/authActions'
 //import signOut again.
 const SignedInMenu = () => {
   const currentUser = useContext(CurrentUserContext)
-  const [url, setUrl] = useState('')
-  var storageRef = storage.ref();
-    var imageRef = storageRef.child(`images/${auth.currentUser.uid}`);
-    imageRef.getDownloadURL().then(function(url){
-      setUrl(url)
-      })
+  // const [url, setUrl] = useState('')
+  // var storageRef = storage.ref();
+  //   var imageRef = storageRef.child(`images/${auth.currentUser.uid}`);
+  //   imageRef.getDownloadURL().then(function(url){
+  //     setUrl(url)
+  //     })
  
   
   return (
         <Menu.Item position="right">
-          <Image avatar spaced="right" src={`${url}`}/>
+          <Image avatar spaced="right">
+            <UserPhoto currentUser={currentUser} />
+            </Image>
           <Dropdown pointing="top left" text= {currentUser.displayName}>
             <Dropdown.Menu>
               <Dropdown.Item text="Create Event" icon="plus" />

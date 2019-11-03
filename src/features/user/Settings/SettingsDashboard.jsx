@@ -29,7 +29,7 @@ const SettingsDashboard = () => {
       </Grid.Column>
       <Grid.Column width={4}>
         <SettingsNav />
-
+        
       </Grid.Column>
     </Grid>
   )
