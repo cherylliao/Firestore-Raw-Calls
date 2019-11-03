@@ -6,11 +6,11 @@ import {Link} from 'react-router-dom'
 
 import format from 'date-fns/format'
 import UserPhoto from '../Settings/Photos/UserPhoto';
-import PhotoContext from '../../../app/contexts/current-user/photo.context';
+
 
 
 const UserDetailedPage =()=> {
-  const url = useContext(PhotoContext)
+  
    const currentUser = useContext(CurrentUserContext)
   //  const [url, setUrl] = useState('')
    if(currentUser)

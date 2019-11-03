@@ -74,14 +74,15 @@ class App extends React.Component{
                     </CurrentUserContext.Provider>
                     <Route path='/settings' />
                     <CurrentUserContext.Provider value={this.state.currentUser}>
-                    
-                      <SettingsDashboard />
-                     
-                    </CurrentUserContext.Provider>
+                    <SettingsDashboard />
+                     </CurrentUserContext.Provider>
+                     <CurrentUserContext.Provider value={this.state.currentUser}>
                     <Route path={['/createEvent','/manage/:id']} component={EventForm} />
+                    </CurrentUserContext.Provider>
                     <Route path='/test' component={TestComponent} />
+                    </Container>
                     <ToastContainer />
-                </Container>
+                
                 </Fragment>
 
             )} />
