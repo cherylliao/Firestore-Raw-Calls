@@ -4,7 +4,7 @@ import { getFirebase } from 'react-redux-firebase';
 import DateInput from "../../../app/common/form/DateInput";
 import PlaceInput from "../../../app/common/form/PlaceInput";
 import TextInput from "../../../app/common/form/TextInput";
-
+import {toast} from 'react-toastify';
 import FormInput from '../../../app/common/form/form-input.component';
 import { subYears } from 'date-fns';
 import {firestore, auth, createUserProfileDocument, db} from '../../auth/firebase.utils';
@@ -48,8 +48,9 @@ if (snapShot.exists) {
       await userRef.update({
         sex, dateOfBirth,city
       });
+      toast.success("Profile updated successfully")
     } catch (error) {
-      console.log('error creating user', error.message);
+      toast.error("Error updating profile")
     }
   }
 }catch(error){

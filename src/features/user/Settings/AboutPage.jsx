@@ -18,10 +18,10 @@ const interests = [
 const AboutPage = ({ pristine, submitting,currentUser }) => {
   const [status, setStatus] =useState('single')
   const [user, setUser] = useState({
-    about: '',
-    interests: '',
-    occupation: '',
-    origin:''
+    about: ' ',
+    interests: ' ',
+    occupation: ' ',
+    origin:' '
        });
   const handleOptionChange =e =>{
     setStatus(e.target.value)
@@ -35,9 +35,9 @@ const AboutPage = ({ pristine, submitting,currentUser }) => {
    const handleSubmit = async event => {
     event.preventDefault();
     try {
-     setUser({...user, status, about: '', 
-      interests: '', occupation:'',
-      origin: ''});
+     setUser({...user, about: ' ', 
+      interests: ' ', occupation:' ',
+      origin: ' '});
 const userRef = firestore.doc(`users/${auth.currentUser.uid}`);
 const snapShot = await userRef.get();
 if (snapShot.exists) {
@@ -47,7 +47,7 @@ if (snapShot.exists) {
     });
     toast.success("About info added successfully!")
   } catch (error) {
-    console.log('error creating user', error.message);
+    toast.error("Error adding about info")
   }
 }
 }catch(error){
@@ -83,28 +83,32 @@ if (snapShot.exists) {
           </label>
         <Divider />
         <label>Tell us about yourself</label>
-        <input name="about" 
+        <input name="about" value={about}
         onChange={handleChange('about')}
         component={TextArea} placeholder="About Me" />
         <Divider />
+        <label>Interests: </label>
         <input
-          name="interests"
+          name="interests" value={interests}
           placeholder="Select your interests"
           onChange={handleChange('interests')}
         />
          <Divider />
+         <label>Occupation: </label>
         <input
           width={8}
-          name="occupation"
+          name="occupation" value={occupation}
           type="text"
           onChange={handleChange('occupation')}
           component={TextInput}
           placeholder="Occupation"
         />
          <Divider />
+         <label>Place of origin: </label>
         <input
           width={8}
-          name="origin"
+          name="origin" 
+          value={origin}
           onChange={handleChange('origin')}
           options={{ types: ['(regions)'] }}
           component={PlaceInput}

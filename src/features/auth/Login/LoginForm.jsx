@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import {toast} from 'react-toastify';
 import FormInput from '../../../app/common/form/form-input.component';
 import CustomButton from '../../../app/common/form/custom-button.component';
 import {NavLink, Link,withRouter,Redirect} from 'react-router-dom'
@@ -22,10 +22,10 @@ const {email, password} = values;
       
       setValues({...values});
       await auth.signInWithEmailAndPassword(email, password);
-      console.log(values)
+      toast.success("Logged In!")
       
     } catch (error) {
-      console.log(error);
+      toast.error("Error logging in")
     }
     closeModal();
   };

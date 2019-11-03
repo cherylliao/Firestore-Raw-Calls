@@ -4,7 +4,7 @@ import { auth, createUserProfileDocument } from '../firebase.utils';
 import CustomButton from '../../../app/common/form/custom-button.component';
 import {closeModal} from "../../modals/modalActions";
 import {connect} from 'react-redux';
-
+import {toast} from 'react-toastify';
 // import './sign-up.styles.scss';
 const actions = {closeModal};
 const RegisterForm=({closeModal}) => {
@@ -35,9 +35,9 @@ const {displayName,email, password,confirmPassword} = values;
 
       setValues({...values, displayName:'', email:'', password:'', confirmPassword:''});
       await createUserProfileDocument(user,  {displayName} );
-      console.log(displayName)
+      toast.success("User registered")
     } catch (error) {
-      console.error(error);
+      toast.error("Error registering")
     }
     closeModal();
   };
