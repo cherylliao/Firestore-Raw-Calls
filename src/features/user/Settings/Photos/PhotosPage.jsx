@@ -15,6 +15,11 @@ const PhotosPage =({currentUser}) => {
         }, [files])
         const handleUploadImage =() =>{
            console.log(image)
+           var storageRef = storage.ref();
+           var imageRef = storageRef.child(`images/${auth.currentUser.uid}`);
+           imageRef.put(image).then(function(snapshot){
+               console.log('uploaded')
+           })
         }
           
           
