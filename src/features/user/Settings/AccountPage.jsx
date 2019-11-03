@@ -1,6 +1,6 @@
 import React from 'react';
 import { Segment, Header, Form, Divider, Label, Button, Icon } from 'semantic-ui-react';
-import { Field, reduxForm } from 'redux-form';
+
 import TextInput from '../../../app/common/form/TextInput';
 import {combineValidators, matchesField, isRequired, composeValidators} from 'revalidate'
 
@@ -20,7 +20,7 @@ const AccountPage = ({ error, invalid, submitting }) => {
         <Header color="teal" sub content="Change password" />
         <p>Use this form to update your account settings</p>
         <Form>
-          <Field
+          <input
             width={8}
             name="newPassword1"
             type="password"
@@ -30,7 +30,7 @@ const AccountPage = ({ error, invalid, submitting }) => {
             basic={true}
             placeholder="New Password"
           />
-          <Field
+          <input
             width={8}
             name="newPassword2"
             type="password"
@@ -50,7 +50,7 @@ const AccountPage = ({ error, invalid, submitting }) => {
         </Form>
       </div>
 
-      <div>
+      {/* <div>
         <Header color="teal" sub content="Facebook Account" />
         <p>Please visit Facebook to update your account settings</p>
         <Button type="button" color="facebook">
@@ -66,9 +66,9 @@ const AccountPage = ({ error, invalid, submitting }) => {
           <Icon name="google plus" />
           Go to Google
         </Button>
-      </div>
+      </div> */}
     </Segment>
   );
 };
 
-export default reduxForm({ form: 'account', validate })(AccountPage);
+export default AccountPage;

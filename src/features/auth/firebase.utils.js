@@ -22,20 +22,7 @@ export const db = firebase.firestore();
 
 export const storage = firebase.storage();
 
-var profileRef=firebase.database().ref('profile')
 
-export function saveProfile(displayName, gender, dateOfBirth, city){
-  var newProfileRef = profileRef.push();
-  newProfileRef.set({
-    name: displayName,
-    sex: gender,
-    dob: dateOfBirth,
-    place: city
-
-
-  })
-
-}
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;

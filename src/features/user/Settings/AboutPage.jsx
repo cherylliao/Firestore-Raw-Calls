@@ -3,7 +3,7 @@ import { Button, Divider, Form, Header, Segment } from 'semantic-ui-react';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import PlaceInput from '../../../app/common/form/PlaceInput';
-import {firestore, auth, createUserProfileDocument, db} from '../../auth/firebase.utils';
+import {firestore, auth} from '../../auth/firebase.utils';
 import {toast} from 'react-toastify';
 
 const interests = [

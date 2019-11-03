@@ -21,7 +21,7 @@ const SettingsDashboard = () => {
         <BasicPage currentUser={currentUser} />
         </Route>
         <Route path='/settings/about' component={AboutPage} currentUser={currentUser}/>
-        <Route path='/settings/photos' component={PhotosPage} />
+        <Route path='/settings/photos' component={PhotosPage} currentUser={currentUser}/>
         <Route path='/settings/account' component={AccountPage} />
         </Switch>
        

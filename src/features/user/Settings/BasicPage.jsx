@@ -7,7 +7,7 @@ import TextInput from "../../../app/common/form/TextInput";
 import {toast} from 'react-toastify';
 import FormInput from '../../../app/common/form/form-input.component';
 import { subYears } from 'date-fns';
-import {firestore, auth, createUserProfileDocument, db} from '../../auth/firebase.utils';
+import {firestore, auth} from '../../auth/firebase.utils';
 
 // import CurrentUserContext from '../../../app/contexts/current-user/current-user.context';
 // import CustomButton from '../../../app/common/form/custom-button.component';

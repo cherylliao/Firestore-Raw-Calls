@@ -2,21 +2,23 @@ import React, {useState, useEffect, Fragment} from 'react';
 import {Image, Segment, Header, Divider, Grid, Button, Card} from 'semantic-ui-react';
 import DropzoneInput from './DropzoneInput'
 import CropperInput from './CropperInput';
-
-const PhotosPage =() => {
+import {storage, auth, firebase} from '../../../auth/firebase.utils';
+const PhotosPage =({currentUser}) => {
         const [files, setFiles] = useState([])
-        const [image, setImage] = useState(null)
+        const [image, setImage] =useState(null)
 
         useEffect (()=>{
             return ()=>{
                 files.forEach(file => URL.revokeObjectURL(file.preview))
             }
+            
         }, [files])
         const handleUploadImage =() =>{
-            //post image to firestore
-
+           console.log(image)
         }
-        const handleCancelCrop =() =>{
+          
+          
+const handleCancelCrop =() =>{
             setFiles([])
         }
         return (
