@@ -4,6 +4,7 @@ import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import PlaceInput from '../../../app/common/form/PlaceInput';
 import {firestore, auth, createUserProfileDocument, db} from '../../auth/firebase.utils';
+import {toast} from 'react-toastify';
 
 const interests = [
   { key: 'drinks', text: 'Drinks', value: 'drinks' },
@@ -44,6 +45,7 @@ if (snapShot.exists) {
     await userRef.update({
       status, about, interests, origin
     });
+    toast.success("About info added successfully!")
   } catch (error) {
     console.log('error creating user', error.message);
   }
@@ -109,7 +111,8 @@ if (snapShot.exists) {
           placeholder="Country of Origin"
         />
         <Divider />
-        <Button disabled={pristine || submitting} size="large" positive content="Update Profile" />
+        <Button 
+        disabled={pristine || submitting} size="large" positive content="Update Profile" />
       </Form>
     </Segment>
   );

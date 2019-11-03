@@ -14,8 +14,8 @@ import ModalManager from '../../features/modals/ModalManager'
 
 import { auth, createUserProfileDocument } from '../../features/auth/firebase.utils';
 import CurrentUserContext from '../../app/contexts/current-user/current-user.context'
-
-
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 class App extends React.Component{
   constructor(){
     super();
@@ -80,13 +80,14 @@ class App extends React.Component{
                     </CurrentUserContext.Provider>
                     <Route path={['/createEvent','/manage/:id']} component={EventForm} />
                     <Route path='/test' component={TestComponent} />
-                   
+                    <ToastContainer />
                 </Container>
                 </Fragment>
 
             )} />
-
+          
         </Fragment>
+        
         
     )
 }
